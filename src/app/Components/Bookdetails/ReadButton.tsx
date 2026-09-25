@@ -2,10 +2,14 @@
 import { BooksContext } from "@/Context/BooksContext";
 import type { IBook } from "@/Types/books.type";
 import { useContext } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 const ReadButton = ({book} : {book: IBook}) => {
 
-    const { readBooks, setReadBooks } = useContext(BooksContext)
+    const { readBooks, setReadBooks } = useContext(BooksContext) as unknown as {
+      readBooks: IBook[];
+      setReadBooks: Dispatch<SetStateAction<IBook[]>>;
+    };
 
       const handleReadBook = () => {
         console.log("Read button trigerred", book)

@@ -5,7 +5,10 @@ import BookCard from "../Components/Shared/BookCard";
 import type { IBook } from "@/Types/books.type";
 
 const ReadBookPage = () => {
-    const { readBooks, wishlist } = useContext(BooksContext);
+    const { readBooks, wishlist } = useContext(BooksContext) as {
+        readBooks: IBook[];
+        wishlist: IBook[];
+    };
     const [sortBy, setSortBy] = useState<"rating" | "pages" | "year">("rating");
 
 
@@ -76,7 +79,7 @@ const ReadBookPage = () => {
                             })}
                         </div>
                     ) : (
-                        <div className="flex min-h-[250px] items-center justify-center rounded-2xl bg-base-200/50">
+                        <div className="flex min-h-62.5 items-center justify-center rounded-2xl bg-base-200/50">
                             <div className="text-center">
                                 <div className="mb-3 text-5xl">📚</div>
                                 <h3 className="text-xl font-bold">
