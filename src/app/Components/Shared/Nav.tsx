@@ -36,6 +36,9 @@ const Nav = () => {
                         <Link href={"/Books"}>Books</Link>
                     </li>
                     <li>
+                        <Link href={"/ListedBooks"}>Listed Books</Link>
+                    </li>
+                    <li>
                         <details>
                             <summary>Parent</summary>
                             <ul className="p-2 bg-base-100 w-40 z-1">
