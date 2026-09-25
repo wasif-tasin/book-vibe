@@ -1,5 +1,6 @@
-import BookCard from "../Shared/BookCard";
+
 import type { IBook } from "@/Types/books.type";
+import BookCard from "../Components/Shared/BookCard";
 
 
 const getBooks = async () => {
@@ -14,8 +15,8 @@ const Books = async () => {
 
   return (
     <section className="container mx-auto px-4 py-17.5">
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-        {booksData.slice(0,6).map((book: IBook) => (
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {booksData.map((book: IBook) => (
           <BookCard key={book.bookId} book={book} />
         ))}
       </div>
