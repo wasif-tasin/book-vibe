@@ -1,14 +1,32 @@
 "use client";
-
 import { BooksContext } from "@/Context/BooksContext";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import BookCard from "../Components/Shared/BookCard";
+import type { IBook } from "@/Types/books.type";
 
 const ReadBookPage = () => {
     const { readBooks, wishlist } = useContext(BooksContext);
+    const [sortBy, setSortBy] = useState<"rating" | "pages" | "year">("rating");
 
-    console.log(readBooks, "Read BOoks");
-    console.log(wishlist, "wish BOoks");
+
+    const sortBooks = (books: IBook[])=> {
+     const sortedBooks = [...books];
+
+     if (sortBy === "rating") {
+        sortedBooks.sort((a, b) => b.rating - a.rating);
+     } else if (sortBy === "pages") {
+        sortedBooks.sort((a, b) => b.totalPages - a.totalPages);
+     }  else if (sortBy === "year") {
+        sortedBooks.sort((a, b) => b.yearOfPublishing - a.yearOfPublishing);
+     }
+
+     return sortedBooks;
+    };
+
+
+    const sortedReadBooks = sortBooks(readBooks);
+    const sortedWishlist =sortBooks(wishlist);
+
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -22,6 +40,15 @@ const ReadBookPage = () => {
                 <p className="mt-2 text-sm text-base-content/60 md:text-base">
                     Keep track of the books you have read and saved for later.
                 </p>
+            </div>
+
+            <div className=" text-center">
+                <select defaultValue="Pick a Runtime" className="select select-success" onChange={(e) => setSortBy(e.target.value as "rating" | "pages" | "year")}>
+                    <option disabled={true}>Sort By</option>
+                    <option value="rating">Rating</option>
+                    <option value="pages">Number of Pages</option>
+                    <option value="year">Published Year</option>
+                </select>
             </div>
 
             {/* Tabs */}
@@ -39,7 +66,7 @@ const ReadBookPage = () => {
 
                     {readBooks.length > 0 ? (
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {readBooks.map((book) => {
+                            {sortedReadBooks.map((book) => {
                                 return (
                                     <BookCard
                                         key={book.bookId}
@@ -77,7 +104,7 @@ const ReadBookPage = () => {
 
                     {wishlist.length > 0 ? (
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {wishlist.map((book) => {
+                            {sortedWishlist.map((book) => {
                                 return (
                                     <BookCard
                                         key={book.bookId}
@@ -87,7 +114,7 @@ const ReadBookPage = () => {
                             })}
                         </div>
                     ) : (
-                        <div className="flex min-h-[250px] items-center justify-center rounded-2xl bg-base-200/50">
+                        <div className="flex min-h-62.5 items-center justify-center rounded-2xl bg-base-200/50">
                             <div className="text-center">
                                 <div className="mb-3 text-5xl">❤️</div>
                                 <h3 className="text-xl font-bold">
